@@ -6,6 +6,8 @@ using namespace std;
 const int WIDTH = 800, HEIGHT = 600;
 const int Player_Height = 20; 
 const int Player_Width = 20; 
+const int Enemy_Height = 20; 
+const int Enemy_Width = 20;
 
 SDL_Window* window = nullptr; 
 SDL_Renderer* renderer = nullptr; 
@@ -79,17 +81,37 @@ void drawPlayer(int x, int y){         //position x and y, then player hitbox(?)
 
 }
 
+void drawEnemy(int x, int y){
+    SDL_Rect enemyRect = {x, y, Enemy_Width, Enemy_Height};
+    SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255); //red
+    SDL_RenderFillRect(renderer, &enemyRect);
+}
+
+bool collision(SDL_Rect player, SDL_Rect enemy){
+
+    
+
+}
+
 void restrictPlayer(int& x, int& y){
 
     if(x < 0)
     {
          x = 0; 
     }
+    if(x + Player_Width > WIDTH)
+    {
+        x = WIDTH - Player_Width; 
+    }
     if(y < 0)
     {
         y = 0; 
     }
-    //if(x > ) need the other two sides of the screen to be restricted still 
+    if(y > HEIGHT)
+    {
+        y = HEIGHT - Player_Height; //taking the height and subtracting the players height keeps them within the View of the window
+    }
+    
 
 
 }
@@ -100,6 +122,8 @@ int main(int argc, char *argv[]){
     SDL_Event windowEvent; 
     int playerX = 0;
     int playerY = HEIGHT - Player_Height;
+    int enemyX = rand() % WIDTH;
+    int enemyY = rand() % HEIGHT;
     bool quit = false;
 
     //initializing SDL libraries
@@ -112,10 +136,6 @@ int main(int argc, char *argv[]){
     //set render draw color to red 
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255); // black
     SDL_RenderClear(renderer); // this will clear the display and draw its new color we set above
-
-    //common to first draw objects and then present
-    drawPlayer(playerX, playerY);
-    SDL_RenderPresent(renderer); 
 
     while(!quit)
     {
@@ -147,6 +167,15 @@ int main(int argc, char *argv[]){
         }
 
         restrictPlayer(playerX, playerY); 
+
+        if(playerX == enemyX)
+        {
+            if(playerY == enemyY)
+            {
+                close();
+                return EXIT_SUCCESS; 
+            }
+        }
      
         //set render draw color to red 
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255); // black
@@ -154,6 +183,7 @@ int main(int argc, char *argv[]){
 
         //common to first draw objects and then present
         drawPlayer(playerX, playerY);
+        drawEnemy(enemyX, enemyY); 
         SDL_RenderPresent(renderer); 
 
     }
