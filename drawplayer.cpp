@@ -89,7 +89,7 @@ void restrictPlayer(int& x, int& y){
     {
         y = 0; 
     }
-    if(x > )
+    //if(x > ) need the other two sides of the screen to be restricted still 
 
 
 }
