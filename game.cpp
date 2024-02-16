@@ -184,7 +184,7 @@ int main(int argc, char *argv[]){
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255); // black
         SDL_RenderClear(renderer); // this will clear the display and draw its new color we set above
 
-        SDL_RenderCopy(renderer, playerText, NULL, &playerRect);
+        SDL_RenderCopy(renderer, playerText, NULL, NULL);
 
         //common to first draw objects and then present
         player.draw(renderer);
